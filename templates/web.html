@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Application</title>
+</head>
+
+<body>
+
+    <div style="color:DarkBlue">
+        <form action="{{ url_for('predict')}}" method="post"> 
+        
+            <h2>Heart Attack Predictive Analysis</h2>
+            
+            
+            
+            <h3>Age(Ex: 29, 77)</h3>
+            <input id="first" name="age" required="required" ">
+            <h3>Resting blood pressure (in mm Hg)</h3>
+            <h3>trtbps: Ex : 94, 200 </h3><br><input id="second" name="trtbps" required="required">
+            <h3>Cholestoral in mg/dl fetched via BMI sensor</h3>
+            <h3>Ex : 126, 564 </h3><br><input id="third" name="chol" required="required">
+            <h3>What is maximum heart rate achieved? </h3>
+             <h3>thatlach: Ex : 94, 200 </h3><br><input id="forth" name="thalach" required="required">
+            <h3>What is previous peak achieved? </h3>
+             <h3>Ex : 0, 6 </h3><br><input id="fifth" name="oldpeak" required="required">
+            
+            <h3>What is the Sex?</h3><br><select name="sex" id="animal" required="required">
+                <option value="M">Male</option>
+                <option value="F">Female</option>
+            </select>
+            
+            <h3>fbs: is fasting blood sugar > 120 mg/dl?</h3><br><select name="fbs" id="bull" required="required">
+                <option value="1">True</option>
+                <option value="0">False</option>
+            </select>
+            
+            <h3>exang: is exercise induced angina?</h3><br><select name="exang" id="cat" required="required">
+                <option value="1">Yes</option>
+                <option value="0">No</option>
+            </select>
+            
+            <h3>slp: slope?</h3><br><select name="slp" id="dog" required="required">
+                <option value="0">0</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+            </select>
+            
+            <h3>caa: number of major vessels?</h3><br><select name="caa" id="elephant" required="required">
+                <option value="0">0</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+            </select>
+            
+            <h3>thall: thal rate?</h3><br><select name="thall" id="fox" required="required">
+                <option value="0">0</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+            </select>
+
+            <h3>cp: chest Pain type</h3><br><select name="cp" id="goat" required="required">
+                <option value="0">typical angina</option>
+                <option value="1">atypical angina</option>
+                <option value="2">non-anginal pain</option>
+                <option value="3">asymptomatic</option>
+            </select>
+            
+            <h3>restecg: resting electrocardiographic results</h3><br><select name="restecg" id="horse" required="required">
+                <option value="0">normal</option>
+                <option value="1">having ST-T wave abnormality</option>
+                <option value="2">other</option>
+            </select>
+ 
+            <br><br><button id="sub" type="submit ">EVALUATE</button>
+            
+            <br>
+
+
+        </form>
+
+
+        <br><br><h3>CLASSIFICATION<h3>
+        
+    </div>
+
+
+
+
+    <style>
+        body {
+            background-color: Lavender;
+            text-align: center;
+            padding: 0px;
+        }
+        
+        #box {
+            border-radius: 60px;
+            border-color: 45px;
+            border-style: solid;
+            font-family: cursive;
+            text-align: center;
+            background-color: rgb(0,0,0);
+            font-size: small;
+            position: absolute;
+            width: 700px;
+            bottom: 9%;
+            height: 850px;
+            right: 30%;
+            padding: 0px;
+            margin: 0px;
+            font-size: 14px;
+        }
+        
+        
+        
+        #animal {
+            width: 250px;
+            height: 25px;
+            text-align: center;
+            border-radius: 5px;
+            font-size: 15px;
+        }        
+        #animal:hover {
+            background-color: Violet;
+        }
+        
+        #bull {
+            width: 250px;
+            height: 25px;
+            text-align: center;
+            border-radius: 5px;
+            font-size: 15px;
+        }        
+        #bull:hover {
+            background-color: Violet;
+        }
+        
+        #cat {
+            width: 250px;
+            height: 25px;
+            text-align: center;
+            border-radius: 5px;
+            font-size: 15px;
+        }        
+        #cat:hover {
+            background-color: Violet;
+        }
+        
+        #dog {
+            width: 250px;
+            height: 25px;
+            text-align: center;
+            border-radius: 5px;
+            font-size: 15px;
+        }        
+        #dog:hover {
+            background-color: Violet;
+        }
+        
+        #elephant {
+            width: 250px;
+            height: 25px;
+            text-align: center;
+            border-radius: 5px;
+            font-size: 15px;
+        }        
+        #elephant:hover {
+            background-color: Violet;
+        }
+        
+        #fox {
+            width: 250px;
+            height: 25px;
+            text-align: center;
+            border-radius: 5px;
+            font-size: 15px;
+        }
+        #fox:hover {
+            background-color: Violet;
+        }
+        
+        #goat {
+            width: 250px;
+            height: 25px;
+            text-align: center;
+            border-radius: 5px;
+            font-size: 15px;
+        }
+        #goat:hover {
+            background-color: Violet;
+        }
+        
+        #horse {
+            width: 250px;
+            height: 25px;
+            text-align: center;
+            border-radius: 5px;
+            font-size: 15px;
+        }
+        #horse:hover {
+            background-color: Violet;
+        }
+        
+        #sub {
+            width: 250px;
+            height: 25px;
+            text-align: center;
+            border-radius: 5px;
+            font-size: 15px;
+        }        
+        #sub:hover {
+            background-color: DodgerBlue;
+        }
+        
+        #first {
+            width: 250px;
+            border-radius: 5px;
+            height: 20px;
+            font-size: 15px;
+            text-align: center;
+        }
+        
+        #second {
+            width: 250px;
+            border-radius: 5px;
+            height: 20px;
+            font-size: 15px;
+            text-align: center;
+        }
+        
+        #third {
+            width: 250px;
+            border-radius: 5px;
+            height: 20px;
+            font-size: 15px;
+            text-align: center;
+        }
+        
+        #forth {
+            width: 250px;
+            border-radius: 5px;
+            height: 20px;
+            font-size: 15px;
+            text-align: center;
+        }
+        #fifth {
+            width: 250px;
+            border-radius: 5px;
+            height: 20px;
+            font-size: 15px;
+            text-align: center;
+        }
+    </style>
+</body>
+
+</html>
