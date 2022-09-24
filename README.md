@@ -57,7 +57,7 @@ With the histplots between the variables we can see the there is distinction bet
 ![Histplot](https://github.com/balajiabcd/Heart-Attact-Prediction/blob/main/images/histplot.png)  
 
 
-With the pai between the variables, we can see that it will be a bit heard to separate the patients based on only any 2 variables.
+With the pairplot between the variables, we can see that it will be a bit heard to separate the patients based on only any 2 variables.
 ![Scattereplot](https://github.com/balajiabcd/Heart-Attact-Prediction/blob/main/images/pairplot.png)
 
 
