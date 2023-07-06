@@ -1,127 +1,71 @@
 from flask import Flask, render_template, request
-import jsonify
-import requests
 import pickle
-import numpy
-import sklearn
+import pandas as pd
 
 app = Flask(__name__)
+model = pickle.load(open('ml_model.pkl', 'rb'))
 
-model = pickle.load(open('model.pkl', 'rb'))
-
-@app.route('/', methods=['GET'])
+@app.route('/')
 def Home():
-    return render_template('web.html')
+    return render_template("normal.html")
+    #return "Balaji"
+
+@app.route('/predict',methods=['POST'])
+
+#def create_dataframe(keys,vls):
+#    return pd.DataFrame(vls, index=keys).T
+
+def hell():
+    age = int(request.form['age'])
+    trtbps = float(request.form['trtbps'])
+    chol = float(request.form['chol'])
+    thalach = float(request.form['thalach'])        
+    oldpeak = float(request.form['oldpeak'])
+    sex = int(request.form['sex'])
+    fbs = int(request.form['fbs'])
+    exang = int(request.form['exang'])
+    slp = int(request.form['slp'])
+    caa = int(request.form['caa'])
+    thall = int(request.form['thall'])
+
+    cp_1 = 0
+    cp_2 = 0
+    cp_3 = 0
+    cp = request.form['cp']
+    if (cp == "1"): cp_1 = 1
+    if (cp == "2"): cp_2 = 1
+    if (cp == "3"): cp_3 = 1
+
+    restecg_1 = 0
+    restecg_2 = 0
+    restecg = request.form['restecg']
+    if (restecg == "1"):    restecg_1 = 1
+    if (restecg == "2"):    restecg_2 = 1
+
+    keys =  ['age', 'sex', 'trtbps', 'chol',  'fbs',  'thalachh', 'exng',      'oldpeak',
+             'slp', 'caa', 'thall',   'cp_1', 'cp_2', 'cp_3',     'restecg_1', 'restecg_2']
+
+    values =[ age,   sex,   trtbps,    chol,   fbs,    thalach,   exang,         oldpeak, 
+              slp,   caa,    thall,    cp_1,   cp_2,     cp_3,   restecg_1,      restecg_2]
+
+    #df = create_dataframe(keys, values)
+    #prediction=model.predict(df)
 
 
-@app.route('/predict', methods=['POST'])
-def predict():
-    if request.method == 'POST': 
-        
-        age = int(request.form['age'])
-        trtbps = float(request.form['trtbps'])
-        chol = float(request.form['chol'])
-        
-        thalach = float(request.form['thalach'])        
-        oldpeak = float(request.form['oldpeak'])
-        
-        sex = request.form['sex']
-        if (sex == "M"):
-            sex = 1
-        else:
-            sex = 0
-            
-        fbs = request.form['fbs'] 
-        if (fbs=="1"):
-            fbs = 1
-        else:
-            fbs = 0
-        
-        exang = request.form['exang']
-        if (exang=="1"):
-            exang = 1
-        else:
-            exang = 0
-        
-        slp = request.form['slp']
-        if (slp=="1"):
-            slp = 1
-        elif (slp=="2"):
-            slp = 2
-        else:
-            slp = 0
-        
-        caa = request.form['caa']
-        if (caa=="1"):
-            caa = 1
-        elif (caa=="2"):
-            caa = 2
-        elif (caa=="3"):
-            caa = 3
-        elif (caa=="4"):
-            caa = 4
-        else:
-            caa = 0
-        
-        thall = request.form['thall']
-        if (thall=="1"):
-            thall = 1
-        elif (thall=="2"):
-            thall = 2
-        elif (thall=="3"):
-            thall = 3
-        else:
-            thall = 0
-        
-        cp = request.form['cp']
-        if(cp == "0"):
-            cp_0 = 1
-            cp_1 = 0
-            cp_2 = 0
-            cp_3 = 0
-        elif (cp == "1"):
-            cp_0 = 0
-            cp_1 = 1
-            cp_2 = 0
-            cp_3 = 0
-        elif (cp == "2"):
-            cp_0 = 0
-            cp_1 = 0
-            cp_2 = 1
-            cp_3 = 0
-        else:
-            cp_0 = 0
-            cp_1 = 0
-            cp_2 = 0
-            cp_3 = 1
-        
-        restecg = request.form['restecg']
-        if(restecg == "0"):
-            restecg_1 = 0
-            restecg_2 = 0
-        elif (restecg == "1"):
-            restecg_1 = 1
-            restecg_2 = 0
-        else:
-            restecg_1 = 0
-            restecg_2 = 1
-            
-        prediction=model.predict([[age, sex, trtbps, chol, fbs, thalach, exang,
-                                   oldpeak, slp, caa, thall, cp_0, cp_1, cp_2, 
-                                   cp_3, restecg_1, restecg_2]])
-        
-        
-        if prediction[0] == 1:
-            return render_template('result1.html')
-        else:
-            return render_template('result0.html')
-        
-        
+    #return f"age = {age}, rtbps = {trtbps}, chol = {chol}, thalach = {thalach}, oldpeak = {oldpeak}, sex = {sex}, fbs = {fbs}, exang = {exang}, slp = {slp}, caa={caa}, thall={thall}, cp_1 = {cp_1}, restecg_1 = {restecg_1}, " #prediction = {prediction}
+    dictionary = {'age': age, 'sex': sex, 'trtbps':trtbps, 'chol': chol,  'fbs': fbs,  'thalachh': thalach, 'exng': exang, 'oldpeak': oldpeak,  'slp': slp, 'caa':caa, 'thall':thall,   'cp_1':cp_1, 'cp_2': cp_2, 'cp_3': cp_3, 'restecg_1': restecg_1, 'restecg_2': restecg_2}
+    df = pd.DataFrame(dictionary, index=[0]) 
+    prediction=model.predict(df).tolist()
+
+    if prediction[0] == 0:
+        return render_template("result_low.html")
     else:
-        return render_template('web.html', prediction_text="Hello")
-    
-    
+        return render_template("result_high.html")
 
-if __name__=="__main__":
+    # return prediction
+
+
+if __name__ == "__main__":
     app.run(debug=True)
+
 
