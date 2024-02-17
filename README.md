@@ -24,9 +24,10 @@ Here to get the accuracy of classification model we used MAE(which is one of eva
 
 After the model preparation is finished, final model was saved in a .pkl file. This file is used in webpage building. Aeter finishing the bulidign the front end and back end for the webpage, it was deployed in the aws. You can check the results ih the following images.
 
+![homepage](https://github.com/balajiabcd/Heart-Attact-Prediction/blob/main/static/screenshots/web_home_page.png).
+![resultone](https://github.com/balajiabcd/Heart-Attact-Prediction/blob/main/static/screenshots/positive%20results.png).
 ![sagemaker](https://github.com/balajiabcd/Heart-Attact-Prediction/blob/main/static/screenshots/SageMaker.png).
-![ec2](https://github.com/balajiabcd/Heart-Attact-Prediction/blob/main/static/screenshots/ec2%20instance.png).
-![homepage](https://github.com/balajiabcd/Heart-Attact-Prediction/blob/main/static/screenshots/web_home_page.png).  
+![ec2](https://github.com/balajiabcd/Heart-Attact-Prediction/blob/main/static/screenshots/ec2%20instance.png).  
 
 
 ### Note:
