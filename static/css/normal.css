@@ -1,0 +1,71 @@
+*{
+    font-family: Arial, Helvetica, sans-serif;
+    color: blue;
+    background-color: aqua;
+}
+.heading{
+    text-align: center;
+    margin: 5%;
+}
+
+
+
+
+.top{
+    margin-top: 3%;
+    padding: 0%;
+}
+
+
+
+
+.left{
+    margin-top: 3%;
+    text-align: left; 
+    width: 49.5%;
+    display: inline-block;
+    text-align: center;
+}
+.right{
+    margin-top: 3%;
+    text-align: right;    
+    width: 50%;
+    display: inline-block;
+    text-align: center;
+}
+
+
+
+
+h3{
+    display: inline-block;
+    text-align: right;
+    width: 49%;
+    padding: 0.2%;
+    margin-right: 1%;
+}
+#horse{
+    display: inline-block;
+    width: 20%;
+    padding: 0.2%;
+    border: 0cap;
+    background-color: white;
+    border-radius: 2rem;
+    text-align: center;
+}
+
+
+
+
+.button{
+    margin-top: 3%;
+    text-align: center;
+}
+
+#sub{
+    color: blue;
+    background-color: rgb(106, 250, 106);
+    width: 10%;
+    padding: 0.4%;
+    border-radius: 2rem;
+}
