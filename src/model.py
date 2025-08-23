@@ -1,0 +1,73 @@
+from src.data_utils import load_data, preprocess_data
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.naive_bayes import GaussianNB
+from sklearn.svm import SVC
+from sklearn.linear_model import LinearRegression
+
+from sklearn.metrics import (
+    accuracy_score, precision_score,
+    recall_score,  f1_score,
+    roc_auc_score, average_precision_score,
+    confusion_matrix, classification_report
+)
+import joblib
+
+
+
+
+
+def train_and_evaluate(name, model, X_train, X_test, y_train, y_test):
+    model.fit(X_train, y_train)
+    joblib.dump(model, "models/"+name+".pkl")
+    y_pred = model.predict(X_test)
+    #y_proba = model.predict_proba(X_test)[:, 1] 
+    
+    print("model name: ",name)
+    print("Accuracy: ", accuracy_score(y_test, y_pred))
+    print("Precision: ", precision_score(y_test, y_pred))
+    print("Recall: ", recall_score(y_test, y_pred))
+    print("F1 Score: ", f1_score(y_test, y_pred))
+    #print("ROC-AUC: ", roc_auc_score(y_test, y_proba))
+    #print("PR-AUC: ", average_precision_score(y_test, y_proba))
+    print("\nConfusion Matrix: \n", confusion_matrix(y_test, y_pred))
+    print(classification_report(y_test, y_pred))
+    print("___________________________________________________________________")
+
+    metrics = {
+    "Accuracy": accuracy_score(y_test, y_pred),
+    "Precision": precision_score(y_test, y_pred),
+    "Recall": recall_score(y_test, y_pred),
+    "F1 Score": f1_score(y_test, y_pred)#,
+    #"ROC-AUC": roc_auc_score(y_test, y_proba),
+    #"PR-AUC": average_precision_score(y_test, y_proba)
+    }
+
+
+
+
+if __name__ == "__main__":
+    df = load_data("data/breast-cancer.csv")
+    X_train, X_test, y_train, y_test = preprocess_data(df)
+
+    #linera = LinearRegression()
+
+    models = [
+    ("svc1", SVC(random_state=2)),
+    ("svc2", SVC(kernel="rbf", random_state=2)),
+    ("gnb", GaussianNB()),
+    ("dtc1", DecisionTreeClassifier(random_state=2)),
+    ("dtc2", DecisionTreeClassifier(random_state=2, criterion="entropy")),
+    ("rfc1", RandomForestClassifier(random_state=2, n_estimators=10, criterion="gini")),
+    ("rfc2", RandomForestClassifier(random_state=2, n_estimators=10, criterion="entropy")),
+    ("rfc3", RandomForestClassifier(random_state=2, n_estimators=400, criterion="entropy")),
+    ("knn1", KNeighborsClassifier(p=2, n_neighbors=5)),
+    ("knn2", KNeighborsClassifier(p=2, n_neighbors=15)),
+    ("knn3", KNeighborsClassifier(p=2, n_neighbors=25))
+    ]
+    
+    for name, model in models:
+        train_and_evaluate(name, model, X_train, X_test, y_train, y_test)
+
+
