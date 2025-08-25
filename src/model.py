@@ -15,9 +15,6 @@ from sklearn.metrics import (
 import joblib
 
 
-
-
-
 def train_and_evaluate(name, model, X_train, X_test, y_train, y_test):
     model.fit(X_train, y_train)
     joblib.dump(model, "models/"+name+".pkl")
