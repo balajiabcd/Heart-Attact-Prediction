@@ -1,20 +1,50 @@
 import pandas as pd
 import numpy as np
+from sklearn.decomposition import PCA
 
-def feature_engineering(df):
+
+
+
+
+def prepare_features(df):
     df = add_risk_flags_and_bins(df)
     df = add_interactions_and_polynomials(df)
     df = risk_scores(df)
     return df
+
+def perform_pca(X_train, X_test):
+    pca = fit_pca(X_train)
+    X_train_pca = transform_pca(X_train, pca)
+    X_test_pca = transform_pca(X_test, pca)
+    return X_train_pca, X_test_pca, pca
+
+
+
+
+
+def fit_pca(X_train):
+    pca = PCA(n_components=0.95, random_state=42)
+    pca.fit(X_train)
+    return pca
+
+def transform_pca(X, pca):
+    X_pca = pca.transform(X)
+    X_pca = pd.DataFrame(
+        X_pca, index=X.index,
+        columns=[f'PC{i+1}' for i in range(X_pca.shape[1])]
+    )
+    return X_pca
+
+
+
+
 
 def add_risk_flags_and_bins(df):
     # imp for medical analysis and domain knowledge
     df["is_hypertensive"] = (df["trtbps"] >= 140).astype(int)
     df["is_hyperchol"] = (df["chol"] >= 240).astype(int)
     df["is_oldpeak_high"] = (df["oldpeak"] >= 2.0).astype(int)
-    
     # Binning some variables into categories
-    # Age groups
     df["age_group"] = pd.cut(df["age"],
                              bins=[0, 40, 60, np.inf],
                              labels=["young", "middle_aged", "elderly"])
@@ -31,7 +61,6 @@ def add_risk_flags_and_bins(df):
                                   bins=[0, 100, 140, np.inf],
                                   labels=["low_fitness", "average", "good"])
     return df
-
 
 def add_interactions_and_polynomials(df):
     # some new features based on domain knowledge
@@ -55,7 +84,6 @@ def add_interactions_and_polynomials(df):
     df["sqrt_trtbps"] = np.sqrt(df["trtbps"].clip(lower=0))
     return df
 
-
 def risk_scores(df):
     # Count how many individual risks are present
     df["risk_count"] = (
@@ -74,10 +102,9 @@ def risk_scores(df):
         0.1 * df["exng"]                    # exercise angina
     )
     df["cardiac_stress_index"] = (220 - df["age"]) - df["thalachh"]
-    # --- Cholesterol to age ratio ---
-    df["chol_age_ratio"] = df["chol"] / (df["age"] + 1)
-    # --- Combined BP & cholesterol risk ---
-    df["bp_chol_risk"] = (df["trtbps"] / 120) + (df["chol"] / 200)
+    df["chol_age_ratio"] = df["chol"] / (df["age"] + 1) #Cholesterol relative to age 
+    df["bp_chol_risk"] = (df["trtbps"] / 120) + (df["chol"] / 200) # -Combined BP & cholesterol risk 
     return df
+
 
 

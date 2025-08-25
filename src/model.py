@@ -41,15 +41,7 @@ def train_and_evaluate(name, model, X_train, X_test, y_train, y_test):
     #"PR-AUC": average_precision_score(y_test, y_proba)
     }
 
-
-
-
-if __name__ == "__main__":
-    df = load_data("data/breast-cancer.csv")
-    X_train, X_test, y_train, y_test = preprocess_data(df)
-
-    #linera = LinearRegression()
-
+def run_ml_models(X_train, X_test, y_train, y_test):
     models = [
     ("svc1", SVC(random_state=2)),
     ("svc2", SVC(kernel="rbf", random_state=2)),
@@ -66,5 +58,12 @@ if __name__ == "__main__":
     
     for name, model in models:
         train_and_evaluate(name, model, X_train, X_test, y_train, y_test)
+
+
+if __name__ == "__main__":
+    df = load_data("data/breast-cancer.csv")
+    X_train, X_test, y_train, y_test, encoder, cols_to_encode, scaler = preprocess_data(df)
+    run_ml_models(X_train, X_test, y_train, y_test)
+    
 
 
