@@ -18,6 +18,7 @@ def preprocess_data(df: pd.DataFrame) -> pd.DataFrame:
     df = df.dropna()
     plots_data_analysis(df)
     df = prepare_features(df)
+    
     X_train, X_test, y_train, y_test = split_data((df))
     df_fe = X_train.copy()
     df_fe["output"] = y_train.values
