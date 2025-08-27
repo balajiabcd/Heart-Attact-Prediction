@@ -3,6 +3,8 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from src.feature_engineering import prepare_features, perform_pca
 from sklearn.preprocessing import OneHotEncoder
+from src.visualize import plots_data_analysis, plots_all_features
+
 
 
 
@@ -14,8 +16,12 @@ def load_data(path: str) -> pd.DataFrame:
 
 def preprocess_data(df: pd.DataFrame) -> pd.DataFrame:
     df = df.dropna()
+    plots_data_analysis(df)
     df = prepare_features(df)
     X_train, X_test, y_train, y_test = split_data((df))
+    df_fe = X_train.copy()
+    df_fe["output"] = y_train.values
+    plots_all_features(df_fe)
 
     X_train, X_test, encoder, cols_to_encode = perform_encoding(X_train, X_test)
     X_train, X_test, scaler = perform_standardization(X_train, X_test)
