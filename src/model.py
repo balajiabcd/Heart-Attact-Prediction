@@ -1,3 +1,6 @@
+import numpy as np
+import pandas as pd
+
 from src.data_utils import load_data, preprocess_data
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.ensemble import RandomForestClassifier
@@ -30,16 +33,24 @@ def train_and_evaluate(name, model, X_train, X_test, y_train, y_test):
     #print("PR-AUC: ", average_precision_score(y_test, y_proba))
     print("\nConfusion Matrix: \n", confusion_matrix(y_test, y_pred))
     print(classification_report(y_test, y_pred))
-    print("___________________________________________________________________")
+    print("___________________________________________________________________________")
 
+    cm = confusion_matrix(y_test, y_pred)
+    tn, fp, fn, tp = cm.ravel()
     metrics = {
+    "model": name,
     "Accuracy": accuracy_score(y_test, y_pred),
     "Precision": precision_score(y_test, y_pred),
     "Recall": recall_score(y_test, y_pred),
-    "F1 Score": f1_score(y_test, y_pred)#,
+    "F1 Score": f1_score(y_test, y_pred),
+    'TN(1,1)': tn,
+    'FP(1,2)': fp,  
+    'FN(2,1)': fn,
+    'TP(2,2)': tp
     #"ROC-AUC": roc_auc_score(y_test, y_proba),
     #"PR-AUC": average_precision_score(y_test, y_proba)
     }
+    return metrics
 
 def run_ml_models(X_train, X_test, y_train, y_test):
     models = [
@@ -56,14 +67,19 @@ def run_ml_models(X_train, X_test, y_train, y_test):
     ("knn3", KNeighborsClassifier(p=2, n_neighbors=25))
     ]
     
+    results = []
     for name, model in models:
-        train_and_evaluate(name, model, X_train, X_test, y_train, y_test)
+        metrics = train_and_evaluate(name, model, X_train, X_test, y_train, y_test)
+        results.append(metrics)
+    return pd.DataFrame(results)
 
 
 if __name__ == "__main__":
-    df = load_data("data/breast-cancer.csv")
-    X_train, X_test, y_train, y_test, encoder, cols_to_encode, scaler = preprocess_data(df)
-    run_ml_models(X_train, X_test, y_train, y_test)
+    df = load_data("data/heart.csv")
+    X_train, X_test, y_train, y_test, encoder, cols_to_encode, scaler, pca = preprocess_data(df)
+    results = run_ml_models(X_train, X_test, y_train, y_test)
+    results.to_csv("results/model_performance.csv", index=False)
+    print(results.head(10))
     
 
 
