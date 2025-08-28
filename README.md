@@ -1,38 +1,143 @@
-# Heart-Attact-Prediction  
+# Heart Attack Prediction
 
+This project is a **machine learning pipeline** that predicts the likelihood of heart attacks based on patient health data. It includes data preprocessing, feature engineering, visualization, model training, evaluation, and testing.
 
-### Flatform:  
-For this project was done completely done in VS code, and Diplyoyed the app in to Amazon Web Services (AWS)   
+---
 
+## 📂 Project Structure
 
-### Data:
-The data consists total of 303 patients's diagnossis results. Out of 165 patients found to have high chance of heart attack and remaining patients have less chance of heart attack. In the obtained data from kaggle, there were no missing values. Data consists of multiple variables, some are quantitative and some are qualitative. These qulitative varialble are encoded first encoded in to multiple variables. After encoding the variables "cp" and "restecg", we can remove one of each encoded variables to remove duplicacy. 
+```
+Heart-Attact-Prediction/
+│
+├── data/                   # Dataset files (CSV or raw data, e.g. heart.csv)
+├── src/                    # Source code for ML pipeline
+│   ├── data_utils.py       # Data loading, preprocessing, encoding, scaling
+│   ├── feature_engineering.py # Domain-driven feature creation & PCA
+│   ├── model.py            # Training & evaluation of ML models
+│   ├── visualize.py        # Plots and data visualization
+│
+├── tests/                  # Unit tests for each module
+│   ├── test_data_utils.py
+│   ├── test_feature_engineering.py
+│   ├── test_model.py
+│   ├── test_visualisation.py
+│
+├── static/data_analysis/   # Auto-generated plots (EDA, correlations, etc.)
+├── requirements.txt        # Python dependencies
+├── README.md               # Project documentation
+└── results/                # Model performance outputs
+```
 
-Then heat map was plotted for the variables, after observing the map, one encoded variable was removed. The heat map of ramaining variables is shown here.  
-![Heatmap-after-processing](https://github.com/balajiabcd/Heart-Attact-Prediction/blob/main/static/images/heatmap.png)  
+---
 
+## ⚙️ Installation
 
-With the histplots of the variables we can see the there is distinction between data of patients who has heart failure and data of patients who don't have it.  
-![Histplot](https://github.com/balajiabcd/Heart-Attact-Prediction/blob/main/static/images/histplot.png)  
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/balajiabcd/Heart-Attact-Prediction.git
+   cd Heart-Attact-Prediction
+   ```
 
+2. Create a virtual environment and activate it:
+   ```bash
+   python -m venv venv
+   source venv/bin/activate   # Linux/Mac
+   venv\Scripts\activate    # Windows
+   ```
 
-With the pairplot between the variables, we can see there exists some clusters in the various plots. Hence, we can expect high accuracy.
-![Scattereplot](https://github.com/balajiabcd/Heart-Attact-Prediction/blob/main/static/images/pairplot.png)
+3. Install dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-### Model:
-Here to get the accuracy of classification model we used MAE(which is one of evaluation matrics of Regression model) as an indirect way of finding acuuracy of model. After trining and Deploying the different classification models and one regression model: Naive Bayes model, logistic regression models gave absolute ~89.5% accurate prediction on testset.    
+---
 
-After the model preparation is finished, final model was saved in a .pkl file. This file is used in webpage building. Aeter finishing the bulidign the front end and back end for the webpage, it was deployed in the aws. You can check the results ih the following images.
+## 📊 Dataset
 
-![homepage](https://github.com/balajiabcd/Heart-Attact-Prediction/blob/main/static/screenshots/web_home_page.png).
-![resultone](https://github.com/balajiabcd/Heart-Attact-Prediction/blob/main/static/screenshots/positive%20results.png).
-![sagemaker](https://github.com/balajiabcd/Heart-Attact-Prediction/blob/main/static/screenshots/SageMaker.png).
-![ec2](https://github.com/balajiabcd/Heart-Attact-Prediction/blob/main/static/screenshots/ec2%20instance.png).  
+The dataset (`heart.csv`) contains patient health records with features like:
 
+- Age
+- Resting blood pressure
+- Cholesterol levels
+- Maximum heart rate achieved
+- Exercise-induced angina
+- ST depression
+- Other derived medical indicators (risk flags, ratios, PCA features)
 
-### Note:
+---
 
-Find and install the libraies used in this project in requirments.txt file.   
-And download the data set used in this project here at this link.  
-"https://www.kaggle.com/datasets/rashikrahmanpritom/heart-attack-analysis-prediction-dataset"  
+## 🚀 Usage
 
+1. **Run data preprocessing and feature engineering**:
+   ```bash
+   python src/data_utils.py
+   ```
+
+2. **Train and evaluate multiple ML models**:
+   ```bash
+   python src/model.py
+   ```
+
+   This saves trained models in `models/` and results in `results/model_performance.csv`.
+
+3. **Generate visualizations**:
+   Plots are automatically stored in `static/data_analysis/`.
+
+4. **Run tests**:
+   ```bash
+   pytest -v
+   ```
+
+---
+
+## 📈 Results
+
+- Models implemented: SVM, Random Forest, Decision Tree, KNN, Naive Bayes
+- Metrics evaluated: Accuracy, Precision, Recall, F1-score, Confusion Matrix
+- Results saved in: `results/model_performance.csv`
+
+Example metrics:
+- Accuracy: ~85% (Random Forest with tuned parameters)
+- Precision/Recall balanced across classes
+
+---
+
+## 🛠️ Tech Stack
+
+- Python 3.x
+- pandas, NumPy
+- scikit-learn
+- seaborn, matplotlib
+- pytest (for testing)
+- joblib (for model saving)
+
+---
+
+## ✅ Testing
+
+Tests are included to validate:
+
+- Data preprocessing (`test_data_utils.py`)
+- Feature engineering (`test_feature_engineering.py`)
+- Model training & evaluation (`test_model.py`)
+- Visualization (`test_visualisation.py`)
+
+Run all tests with:
+```bash
+pytest -v
+```
+
+---
+
+## 📌 Future Work
+
+- Deploy as REST API or Streamlit dashboard
+- Hyperparameter optimization (GridSearchCV/Optuna)
+- Deep learning approaches (PyTorch/TensorFlow)
+- Support larger datasets for robustness
+
+---
+
+## 📜 License
+
+This project is licensed under the MIT License.
