@@ -1,5 +1,7 @@
 import numpy as np
 import pandas as pd
+import os
+import joblib
 
 from src.data_utils import load_data, preprocess_data
 from sklearn.neighbors import KNeighborsClassifier
@@ -15,11 +17,17 @@ from sklearn.metrics import (
     roc_auc_score, average_precision_score,
     confusion_matrix, classification_report
 )
-import joblib
+
+
+
 
 
 def train_and_evaluate(name, model, X_train, X_test, y_train, y_test):
     model.fit(X_train, y_train)
+    
+    if not os.path.exists("models"):
+        os.makedirs("models")
+
     joblib.dump(model, "models/"+name+".pkl")
     y_pred = model.predict(X_test)
     #y_proba = model.predict_proba(X_test)[:, 1] 
@@ -78,8 +86,16 @@ if __name__ == "__main__":
     df = load_data("data/heart.csv")
     X_train, X_test, y_train, y_test, encoder, cols_to_encode, scaler, pca = preprocess_data(df)
     results = run_ml_models(X_train, X_test, y_train, y_test)
+    
+    joblib.dump(encoder, "models/encoder.pkl")
+    joblib.dump(cols_to_encode, "models/cols_to_encode.pkl")
+    joblib.dump(scaler, "models/scaler.pkl")
+    joblib.dump(pca, "models/pca.pkl")
+    
+    os.makedirs("results", exist_ok=True)
     results.to_csv("results/model_performance.csv", index=False)
     print(results.head(10))
+
     
 
 
