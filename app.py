@@ -1,10 +1,11 @@
-from flask import Flask, render_template, request
-import pickle
+import joblib
 import pandas as pd
-from src.data_utils import preprocess_data
+from flask import Flask, render_template, request
+from src.feature_engineering import prepare_features
+from src.data_utils import transform_with_saved_encoder
 
 app = Flask(__name__)
-model = pickle.load(open('models/rfc3.pkl', 'rb'))
+model = joblib.load("models/rfc3.pkl")
 
 @app.route('/')
 def Home():
@@ -31,48 +32,34 @@ def hell():
     'thall': int(request.form['thall'])
     }
 
-    df = pd.DataFrame(data, index=[0])
-    X_train, X_test, y_train, y_test, encoder, cols_to_encode, scaler, pca = preprocess_data(df)
-    
+    testdf = pd.DataFrame(data, index=[0])
+    encoder1 = joblib.load("models/encoder.pkl")
+    cols_to_encode1 = joblib.load("models/cols_to_encode.pkl")
+    scaler1 = joblib.load("models/scaler.pkl")
+    pca1 = joblib.load("models/pca.pkl")
+    model1 = joblib.load("models/best_model.pkl")
 
+    ALIAS_MAP = {
+    "trestbps": "trtbps",
+    "thalach": "thalachh",
+    "exang": "exng",}
 
+    def normalize_input_columns(df: pd.DataFrame) -> pd.DataFrame:
+        df = df.rename(columns=ALIAS_MAP)
+        return df
 
-    cp_1 = 0
-    cp_2 = 0
-    cp_3 = 0
-    if (cp == "1"): cp_1 = 1
-    if (cp == "2"): cp_2 = 1
-    if (cp == "3"): cp_3 = 1
+    testdf = normalize_input_columns(testdf)
+    testdf = prepare_features(testdf)
+    testdf_encoded = transform_with_saved_encoder(testdf, encoder1, cols_to_encode1)
+    df_standardized = scaler1.transform(testdf_encoded)
+    testdf_encoded_pca = pca1.transform(df_standardized)
+    result = model1.predict(testdf_encoded_pca)
 
-    restecg_1 = 0
-    restecg_2 = 0
-    if (restecg == "1"):    restecg_1 = 1
-    if (restecg == "2"):    restecg_2 = 1
-
-    keys =  ['age', 'sex', 'trtbps', 'chol',  'fbs',  'thalachh', 'exng',      'oldpeak',
-             'slp', 'caa', 'thall',   'cp_1', 'cp_2', 'cp_3',     'restecg_1', 'restecg_2']
-
-    values =[ age,   sex,   trtbps,    chol,   fbs,    thalach,   exang,         oldpeak, 
-              slp,   caa,    thall,    cp_1,   cp_2,     cp_3,   restecg_1,      restecg_2]
-
-    #df = create_dataframe(keys, values)
-    #prediction=model.predict(df)
-
-
-    #return f"age = {age}, rtbps = {trtbps}, chol = {chol}, thalach = {thalach}, oldpeak = {oldpeak}, sex = {sex}, fbs = {fbs}, exang = {exang}, slp = {slp}, caa={caa}, thall={thall}, cp_1 = {cp_1}, restecg_1 = {restecg_1}, " #prediction = {prediction}
-    dictionary = {'age': age, 'sex': sex, 'trtbps':trtbps, 'chol': chol,  'fbs': fbs,  'thalachh': thalach, 'exng': exang, 'oldpeak': oldpeak,  'slp': slp, 'caa':caa, 'thall':thall,   'cp_1':cp_1, 'cp_2': cp_2, 'cp_3': cp_3, 'restecg_1': restecg_1, 'restecg_2': restecg_2}
-    df = pd.DataFrame(dictionary, index=[0]) 
-    prediction=model.predict(df).tolist()
-
-    if prediction[0] == 0:
+    if result[0] == 0:
         return render_template("result_low.html")
     else:
         return render_template("result_high.html")
 
-    # return prediction
-
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)
-
-
