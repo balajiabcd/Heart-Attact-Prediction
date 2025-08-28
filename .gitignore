@@ -84,11 +84,4 @@ htmlcov/
 *.old
 *.rej
 
-# ======================
-# Static & generated files
-# ======================
-static/data_analysis/*.png
-static/data_analysis/*.csv
-images/*.png
-results/*.png
-results/*.csv
+
