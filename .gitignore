@@ -1,0 +1,94 @@
+# ======================
+# Python
+# ======================
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+env/
+venv/
+.venv/
+ENV/
+.env/
+.Python
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# ======================
+# Jupyter Notebook
+# ======================
+.ipynb_checkpoints
+
+# ======================
+# VSCode
+# ======================
+.vscode/
+.history/
+
+# ======================
+# Operating System
+# ======================
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.lnk
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Linux
+*~
+
+# ======================
+# Logs and temp files
+# ======================
+*.log
+*.tmp
+*.bak
+
+# ======================
+# Large raw data & models
+# ======================
+# Raw datasets (keep processed results in repo)
+data/*.csv
+!data/processed_*.csv
+
+# Models
+models/*.pkl
+!models/example_model.pkl   # if you want to keep a small example model
+
+# ======================
+# Python testing
+# ======================
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+
+# ======================
+# Notebook / interactive work
+# ======================
+*.swp
+*.swo
+*.bak
+*.orig
+*.old
+*.rej
+
+# ======================
+# Static & generated files
+# ======================
+static/data_analysis/*.png
+static/data_analysis/*.csv
+images/*.png
+results/*.png
+results/*.csv
