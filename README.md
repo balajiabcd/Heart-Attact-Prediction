@@ -1,143 +1,169 @@
-# Heart Attack Prediction
 
-This project is a **machine learning pipeline** that predicts the likelihood of heart attacks based on patient health data. It includes data preprocessing, feature engineering, visualization, model training, evaluation, and testing.
+# ❤️ Heart Attack Prediction Project  
+
+A complete **Data Science & Machine Learning pipeline** to predict the likelihood of heart disease using patient health records.  
+
+This project demonstrates:  
+- 📊 **Exploratory Data Analysis (EDA)** with professional plots  
+- 🛠️ **Feature Engineering** grounded in medical domain knowledge  
+- 🤖 **Machine Learning Model Benchmarking** across multiple algorithms  
+- 🌐 **Flask Web Application** for real-time predictions  
+- 🧪 **Comprehensive Unit Testing** for reliability  
 
 ---
 
-## 📂 Project Structure
+## 📂 Project Structure  
 
 ```
 Heart-Attact-Prediction/
-│
-├── data/                   # Dataset files (CSV or raw data, e.g. heart.csv)
-├── src/                    # Source code for ML pipeline
-│   ├── data_utils.py       # Data loading, preprocessing, encoding, scaling
-│   ├── feature_engineering.py # Domain-driven feature creation & PCA
-│   ├── model.py            # Training & evaluation of ML models
-│   ├── visualize.py        # Plots and data visualization
-│
-├── tests/                  # Unit tests for each module
-│   ├── test_data_utils.py
-│   ├── test_feature_engineering.py
-│   ├── test_model.py
-│   ├── test_visualisation.py
-│
-├── static/data_analysis/   # Auto-generated plots (EDA, correlations, etc.)
-├── requirements.txt        # Python dependencies
-├── README.md               # Project documentation
-└── results/                # Model performance outputs
+│── data/heart.csv                # Dataset
+│── models/                       # Saved models
+│── results/model_performance.csv # Model results
+│── src/
+│   ├── data_utils.py             # Preprocessing & encoding
+│   ├── feature_engineering.py    # Feature creation
+│   ├── visualize.py              # Visualization & plots
+│   └── model.py                  # Training & evaluation
+│── static/data_analysis/         # Plots & images
+│── templates/                    # Flask HTML templates
+│── app.py                        # Flask web app
+│── tests/                        # Unit tests
+│── requirements.txt              # Dependencies
+│── README.md                     # Project documentation
 ```
 
 ---
 
-## ⚙️ Installation
+## 📊 Dataset  
 
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/balajiabcd/Heart-Attact-Prediction.git
-   cd Heart-Attact-Prediction
-   ```
+The dataset contains **303 patient records** with 14 medical attributes and a binary outcome (`output: 1 = heart disease, 0 = no disease`).  
 
-2. Create a virtual environment and activate it:
-   ```bash
-   python -m venv venv
-   source venv/bin/activate   # Linux/Mac
-   venv\Scripts\activate    # Windows
-   ```
-
-3. Install dependencies:
-   ```bash
-   pip install -r requirements.txt
-   ```
+Key Features:  
+- `age` — patient age (years)  
+- `sex` — gender (1 = male, 0 = female)  
+- `trtbps` — resting blood pressure (mm Hg)  
+- `chol` — serum cholesterol (mg/dl)  
+- `thalachh` — maximum heart rate achieved  
+- `oldpeak` — ST depression induced by exercise  
+- `cp`, `restecg`, `slp`, `caa`, `thall` — categorical medical features  
+- `fbs`, `exng` — binary medical indicators  
+- `output` — target variable  
 
 ---
 
-## 📊 Dataset
+## 🔍 Exploratory Data Analysis (EDA)  
 
-The dataset (`heart.csv`) contains patient health records with features like:
+We analyzed the dataset to understand distributions, correlations, and relationships between features.  
 
-- Age
-- Resting blood pressure
-- Cholesterol levels
-- Maximum heart rate achieved
-- Exercise-induced angina
-- ST depression
-- Other derived medical indicators (risk flags, ratios, PCA features)
+- **Class Distribution**  
+  ![Class Distribution](static/data_analysis/class_distribution.png)  
 
----
+- **Correlation Heatmap**  
+  ![Correlation Heatmap](static/data_analysis/correlation_heatmap_raw.png)  
 
-## 🚀 Usage
+- **Feature Distributions**  
+  ![Cholesterol Histogram](static/data_analysis/hist_chol.png)  
+  ![Blood Pressure Histogram](static/data_analysis/hist_trtbps.png)  
 
-1. **Run data preprocessing and feature engineering**:
-   ```bash
-   python src/data_utils.py
-   ```
+- **Boxplots by Outcome**  
+  ![Blood Pressure vs Output](static/data_analysis/boxplot_trtbps.png)  
+  ![Cholesterol vs Output](static/data_analysis/boxplot_chol.png)  
 
-2. **Train and evaluate multiple ML models**:
-   ```bash
-   python src/model.py
-   ```
+- **Scatterplots**  
+  ![Age vs Max HR](static/data_analysis/scatter_age_thalachh_raw.png)  
+  ![BP vs Cholesterol](static/data_analysis/scatter_trtbps_chol_raw.png)  
 
-   This saves trained models in `models/` and results in `results/model_performance.csv`.
-
-3. **Generate visualizations**:
-   Plots are automatically stored in `static/data_analysis/`.
-
-4. **Run tests**:
-   ```bash
-   pytest -v
-   ```
+🔎 Insights:  
+- Patients with **higher cholesterol** and **higher resting BP** are more prone to heart disease.  
+- **Lower exercise capacity (thalachh)** is strongly associated with disease presence.  
 
 ---
 
-## 📈 Results
+## 🛠️ Feature Engineering  
 
-- Models implemented: SVM, Random Forest, Decision Tree, KNN, Naive Bayes
-- Metrics evaluated: Accuracy, Precision, Recall, F1-score, Confusion Matrix
-- Results saved in: `results/model_performance.csv`
+We extended the dataset with domain-driven features:  
 
-Example metrics:
-- Accuracy: ~85% (Random Forest with tuned parameters)
-- Precision/Recall balanced across classes
+✔ **Risk Flags**: Hypertension, Hypercholesterolemia, High ST Depression  
+✔ **Categorical Binning**: Age groups, Cholesterol groups, BP groups  
+✔ **Interaction Features**: Age/Chol ratio, BP*Oldpeak product  
+✔ **Polynomial & Log Features**: Squared terms, log transforms, square roots  
+✔ **Composite Risk Scores**: Risk count, weighted risk score, cardiac stress index  
 
----
+Example engineered feature visualization:  
 
-## 🛠️ Tech Stack
-
-- Python 3.x
-- pandas, NumPy
-- scikit-learn
-- seaborn, matplotlib
-- pytest (for testing)
-- joblib (for model saving)
+- **Risk Count vs Weighted Risk Score**  
+  ![Risk Features](static/data_analysis/scatter_risk_count_weighted_risk_score_fe.png)  
 
 ---
 
-## ✅ Testing
+## 🤖 Machine Learning Models  
 
-Tests are included to validate:
+We benchmarked several ML models:  
 
-- Data preprocessing (`test_data_utils.py`)
-- Feature engineering (`test_feature_engineering.py`)
-- Model training & evaluation (`test_model.py`)
-- Visualization (`test_visualisation.py`)
+- Support Vector Classifiers (linear, RBF)  
+- Decision Trees (Gini, Entropy)  
+- Random Forests (various depths & criteria)  
+- K-Nearest Neighbors (k = 5, 15, 25)  
+- Gaussian Naive Bayes  
 
-Run all tests with:
-```bash
-pytest -v
-```
+### Model Performance  
 
----
+![Model Performance](static/data_analysis/model_performance.png)  
 
-## 📌 Future Work
-
-- Deploy as REST API or Streamlit dashboard
-- Hyperparameter optimization (GridSearchCV/Optuna)
-- Deep learning approaches (PyTorch/TensorFlow)
-- Support larger datasets for robustness
+🏆 **Best performers**: Random Forests and SVMs — achieved high **F1-score** and **balanced Precision-Recall**.  
 
 ---
 
-## 📜 License
+## 🌐 Web Application  
 
-This project is licensed under the MIT License.
+We built a **Flask web app** for real-time predictions.  
+
+- **Homepage (User Input Form)**  
+  ![Input Form](docs/images/form_example.png)  
+
+- **Prediction Result — Low Risk**  
+  ![Low Risk Result](docs/images/result_low.png)  
+
+- **Prediction Result — High Risk**  
+  ![High Risk Result](docs/images/result_high.png)  
+
+👉 Users can input patient details and instantly see risk predictions.  
+
+---
+
+## 🧪 Testing  
+
+Unit tests ensure reliability across all components:  
+
+- **Data Preprocessing** → `test_data_utils.py`  
+- **Feature Engineering** → `test_feature_engineering.py`  
+- **Model Training/Evaluation** → `test_model.py`  
+- **Visualization** → `test_visualisation.py`  
+
+✔️ All tests run with **pytest** and confirm pipeline correctness.  
+
+---
+
+## ✨ Key Highlights  
+
+- End-to-end **ML pipeline** with modular, reusable code  
+- Rich **EDA** with visual storytelling  
+- Strong **domain-informed feature engineering**  
+- **Model benchmarking** with saved results  
+- **Flask app deployment** for real-world usability  
+- Full **unit test coverage**  
+
+---
+
+📌 This project demonstrates **practical Data Science skills**: data wrangling, EDA, feature engineering, model building, evaluation, visualization, and deployment.  
+
+---
+
+⚡ **Next Steps / Future Work**:  
+- Deploy app on **Heroku / AWS**  
+- Add **SHAP explainability** for model interpretation  
+- Integrate pipeline into **MLflow** for tracking  
+
+---
+
+🔥 *This project isn’t just code — it’s a showcase of applied ML and end-to-end data science workflow.*  
