@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href= "/static/css/normal.css" >
+    <title>heart_atteck_chance_predictor</title>
+</head>
+
+
+
+<body>
+
+    <div class="heading">
+        <h1>Heart Failure Prediction App</h1>
+        <h2>Enter Patient Details</h2>
+    </div>
+
+    <form class="form" method="POST" action="/predict">
+
+        <div class="top">
+
+            <div class="element">
+                <h3>Age</h3>
+                <input id="horse" name="age" required="required">
+            </div>
+
+            <div class="element">
+                <h3>Resting blood pressure (in mm Hg). Limits: 94, 200</h3>
+                <input id="horse" name="trtbps" required="required">
+            </div>
+
+            <div class="element">
+                <h3>Cholestoral in mg/dl. Limits: 126, 564</h3>
+                <input id="horse" name="chol" required="required">
+            </div>
+
+            <div class="element">
+                <h3>Maximum heart rate achieved. Limits: 94, 200</h3>
+                <input id="horse" name="thalach" required="required">
+            </div>
+
+            <div class="element">
+                <h3>Previous peak achieved. Limits: 0,6</h3>            
+                <input id="horse" name="oldpeak" required="required">
+            </div>
+
+        </div>
+
+        <div class="bottom left">
+
+            <div class="element">
+                <h3>Sex</h3>
+                <select name="sex" id="horse" required="required">
+                    <option value="1">Male</option>
+                    <option value="0">Female</option>
+                </select>
+            </div>
+
+            <div class="element">
+                <h3>Is fasting blood sugar > 120 mg/dl?</h3>
+                <select name="fbs" id="horse" required="required">
+                    <option value="1">True</option>
+                    <option value="0">False</option>
+                </select>
+            </div>
+            
+            <div class="element">
+                <h3>Is exercise induced angina?</h3>
+                <select name="exang" id="horse" required="required">
+                    <option value="1">Yes</option>
+                    <option value="0">No</option>
+                </select>
+            </div>
+            
+            <div class="element">
+                <h3>Slope</h3>
+                <select name="slp" id="horse" required="required">
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                </select>
+            </div>
+
+        </div>
+
+        <div class="bottom right">
+
+            <div class="element">
+                <h3>Number of major vessels?</h3>
+                <select name="caa" id="horse" required="required">
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                </select>
+            </div>
+            
+            <div class="element">
+                <h3>Thal rate?</h3>
+                <select name="thall" id="horse" required="required">
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                </select>
+            </div>
+
+            <div class="element">
+                <h3>Chest Pain type</h3>
+                <select name="cp" id="horse" required="required">
+                    <option value="0">typical angina</option>
+                    <option value="1">atypical angina</option>
+                    <option value="2">non-anginal pain</option>
+                    <option value="3">asymptomatic</option>
+                </select>
+            </div>
+
+            <div class="element">
+                <h3>Resting electrocardiographic results</h3>
+                <select name="restecg" id="horse" required="required">
+                    <option value="0">normal</option>
+                    <option value="1">having ST-T wave abnormality</option>
+                    <option value="2">other</option>
+                </select>
+            </div>
+
+        </div>
+
+        <div class="button">
+            <button id="sub" type="submit ">ENTER</button>
+        </div>
+
+    </form>
+
+    
+    
+</body>
+
+</html>

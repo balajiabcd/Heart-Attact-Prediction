@@ -1,144 +1,152 @@
 <!DOCTYPE html>
 <html lang="en">
-
-
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href= "/static/css/normal.css" >
-    <title>heart_atteck_chance_predictor</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Heart Failure Prediction</title>
+  <!-- Keep the same path to avoid Flask conflicts -->
+  <link rel="stylesheet" href="/static/css/normal.css" />
 </head>
-
-
-
 <body>
-
-    <div class="heading">
-        <h1>Heart Failure Prediction App</h1>
-        <h2>Enter Patient Details</h2>
+  <header class="site-header">
+    <div class="container">
+      <h1>Heart Failure Risk Predictor</h1>
+      <p class="subtitle">Enter patient details to estimate risk</p>
     </div>
+  </header>
 
-    <form class="form" method="POST" action="/predict">
+  <main class="container">
+    <form class="card form" method="POST" action="/predict" novalidate>
+      <h2 class="card-title">Patient Information</h2>
 
-        <div class="top">
-
-            <div class="element">
-                <h3>Age</h3>
-                <input id="horse" name="age" required="required">
-            </div>
-
-            <div class="element">
-                <h3>Resting blood pressure (in mm Hg). Limits: 94, 200</h3>
-                <input id="horse" name="trtbps" required="required">
-            </div>
-
-            <div class="element">
-                <h3>Cholestoral in mg/dl. Limits: 126, 564</h3>
-                <input id="horse" name="chol" required="required">
-            </div>
-
-            <div class="element">
-                <h3>Maximum heart rate achieved. Limits: 94, 200</h3>
-                <input id="horse" name="thalach" required="required">
-            </div>
-
-            <div class="element">
-                <h3>Previous peak achieved. Limits: 0,6</h3>            
-                <input id="horse" name="oldpeak" required="required">
-            </div>
-
+      <div class="grid">
+        <!-- Left column numeric inputs -->
+        <div class="field">
+          <label for="age">Age</label>
+          <input type="number" id="age" name="age" min="1" max="120" placeholder="e.g., 54" required />
         </div>
 
-        <div class="bottom left">
-
-            <div class="element">
-                <h3>Sex</h3>
-                <select name="sex" id="horse" required="required">
-                    <option value="1">Male</option>
-                    <option value="0">Female</option>
-                </select>
-            </div>
-
-            <div class="element">
-                <h3>Is fasting blood sugar > 120 mg/dl?</h3>
-                <select name="fbs" id="horse" required="required">
-                    <option value="1">True</option>
-                    <option value="0">False</option>
-                </select>
-            </div>
-            
-            <div class="element">
-                <h3>Is exercise induced angina?</h3>
-                <select name="exang" id="horse" required="required">
-                    <option value="1">Yes</option>
-                    <option value="0">No</option>
-                </select>
-            </div>
-            
-            <div class="element">
-                <h3>Slope</h3>
-                <select name="slp" id="horse" required="required">
-                    <option value="0">0</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                </select>
-            </div>
-
+        <div class="field">
+          <label for="trtbps">Resting Blood Pressure (mm Hg)</label>
+          <input type="number" step="0.1" id="trtbps" name="trtbps" placeholder="e.g., 130" required />
+          <small class="hint">Typical range: 94–200</small>
         </div>
 
-        <div class="bottom right">
-
-            <div class="element">
-                <h3>Number of major vessels?</h3>
-                <select name="caa" id="horse" required="required">
-                    <option value="0">0</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                </select>
-            </div>
-            
-            <div class="element">
-                <h3>Thal rate?</h3>
-                <select name="thall" id="horse" required="required">
-                    <option value="0">0</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                </select>
-            </div>
-
-            <div class="element">
-                <h3>Chest Pain type</h3>
-                <select name="cp" id="horse" required="required">
-                    <option value="0">typical angina</option>
-                    <option value="1">atypical angina</option>
-                    <option value="2">non-anginal pain</option>
-                    <option value="3">asymptomatic</option>
-                </select>
-            </div>
-
-            <div class="element">
-                <h3>Resting electrocardiographic results</h3>
-                <select name="restecg" id="horse" required="required">
-                    <option value="0">normal</option>
-                    <option value="1">having ST-T wave abnormality</option>
-                    <option value="2">other</option>
-                </select>
-            </div>
-
+        <div class="field">
+          <label for="chol">Cholesterol (mg/dL)</label>
+          <input type="number" step="0.1" id="chol" name="chol" placeholder="e.g., 240" required />
+          <small class="hint">Typical range: 126–564</small>
         </div>
 
-        <div class="button">
-            <button id="sub" type="submit ">ENTER</button>
+        <div class="field">
+          <label for="thalach">Max Heart Rate Achieved</label>
+          <input type="number" step="0.1" id="thalach" name="thalach" placeholder="e.g., 162" required />
+          <small class="hint">Typical range: 94–200</small>
         </div>
 
+        <div class="field">
+          <label for="oldpeak">ST Depression (Oldpeak)</label>
+          <input type="number" step="0.1" id="oldpeak" name="oldpeak" placeholder="e.g., 1.2" required />
+          <small class="hint">Typical range: 0–6</small>
+        </div>
+
+        <!-- Right column categorical selects -->
+        <div class="field">
+          <label for="sex">Sex</label>
+          <select id="sex" name="sex" required>
+            <option value="" disabled selected>Select</option>
+            <option value="1">Male</option>
+            <option value="0">Female</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="fbs">Fasting Blood Sugar &gt; 120 mg/dL?</label>
+          <select id="fbs" name="fbs" required>
+            <option value="" disabled selected>Select</option>
+            <option value="1">True</option>
+            <option value="0">False</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="exang">Exercise Induced Angina?</label>
+          <select id="exang" name="exang" required>
+            <option value="" disabled selected>Select</option>
+            <option value="1">Yes</option>
+            <option value="0">No</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="slp">Slope of Peak Exercise ST Segment</label>
+          <select id="slp" name="slp" required>
+            <option value="" disabled selected>Select</option>
+            <option value="0">Upsloping (0)</option>
+            <option value="1">Flat (1)</option>
+            <option value="2">Downsloping (2)</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="caa">Number of Major Vessels (0–4)</label>
+          <select id="caa" name="caa" required>
+            <option value="" disabled selected>Select</option>
+            <option value="0">0</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="thall">Thalassemia</label>
+          <select id="thall" name="thall" required>
+            <option value="" disabled selected>Select</option>
+            <option value="0">0</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="cp">Chest Pain Type</label>
+          <!-- values must remain 0/1/2/3 to match app.py logic -->
+          <select id="cp" name="cp" required>
+            <option value="" disabled selected>Select</option>
+            <option value="0">Typical angina</option>
+            <option value="1">Atypical angina</option>
+            <option value="2">Non‑anginal pain</option>
+            <option value="3">Asymptomatic</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="restecg">Resting ECG Results</label>
+          <!-- values must remain 0/1/2 to match app.py logic -->
+          <select id="restecg" name="restecg" required>
+            <option value="" disabled selected>Select</option>
+            <option value="0">Normal</option>
+            <option value="1">ST‑T wave abnormality</option>
+            <option value="2">Left ventricular hypertrophy</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="btn" type="submit">Predict Risk</button>
+      </div>
+
+      <p class="disclaimer">Disclaimer: This demo is for educational purposes only and not a medical diagnosis.</p>
     </form>
+  </main>
 
-    
-    
+  <footer class="site-footer">
+    <div class="container">
+      <small>&copy; 2025 Heart Risk ML — Demo App</small>
+    </div>
+  </footer>
 </body>
-
 </html>

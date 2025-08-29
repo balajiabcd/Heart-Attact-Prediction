@@ -66,7 +66,7 @@ def plot_class_distribution(df, target_col="output", save_path=None):
 def plot_correlation(df, save_path=None):
     plt.figure(figsize=(12,10))
     corr = df.select_dtypes(include=['int64', 'float64']).corr()
-    sns.heatmap(corr, annot=True, fmt=".2f", cmap="coolwarm", square=True)
+    sns.heatmap(corr, annot=False, fmt=".2f", cmap="coolwarm", square=True)
     plt.title("Correlation Heatmap")
     if save_path:
         plt.savefig(save_path, bbox_inches="tight")
