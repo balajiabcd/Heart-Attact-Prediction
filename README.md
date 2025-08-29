@@ -119,13 +119,13 @@ We benchmarked several ML models:
 We built a **Flask web app** for real-time predictions.  
 
 - **Homepage (User Input Form)**  
-  ![Input Form](static\screenshots\web_home_page.png)  
+  ![Input Form](static/screenshots/web_home_page.png)  
 
 - **Prediction Result — Low Risk**  
-  ![Low Risk Result](static\screenshots\positive_results.png)  
+  ![Low Risk Result](static/screenshots/positive_results.png)  
 
 - **Prediction Result — High Risk**  
-  ![High Risk Result](static\screenshots\negetive_results.png)  
+  ![High Risk Result](static/screenshots/negetive_results.png)  
 
 👉 Users can input patient details and instantly see risk predictions.  
 
