@@ -131,6 +131,24 @@ We built a **Flask web app** for real-time predictions.
 
 ---
 
+## ☁️ Deployment on AWS  
+
+This project was deployed on AWS using multiple services:  
+
+- **EC2** → Hosted Flask application  
+  ![EC2 Instance](static/screenshots/ec2_instance.png)  
+
+- **IAM Roles** → Managed access and permissions  
+  ![IAM Roles](static/screenshots/IAM-roles.png)  
+
+- **S3 Bucket** → Stored models and artifacts  
+  ![S3 Bucket](static/screenshots/s3_bucket.png)  
+
+- **SageMaker** → Experimented with managed ML training/deployment  
+  ![SageMaker](static/screenshots/SageMaker.png)  
+
+
+---
 ## 🧪 Testing  
 
 Unit tests ensure reliability across all components:  
